@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "Secret"
 
 
-connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=;Database=;Uid=;Pwd=;")
+connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:cld3.database.windows.net,1433;Database=cl3;Uid=dvk@cld3;Pwd={Gmail2019!};")
 cursor = connection.cursor()
 print(cursor)
 
