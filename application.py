@@ -25,7 +25,6 @@ def index():
 #     if request.method == 'POST':
 #         input3 = request.form['find']
 #
-#         # query1 = 'SELECT count(*) FROM GEO where "mag" >= ' + input3 + ''
 #         cursor.execute('SELECT * FROM dbo.records where "mag" >= '+input3+'')
 #         rows1 = []
 #         result1 = cursor.fetchall()
