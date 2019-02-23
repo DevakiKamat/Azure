@@ -4,20 +4,20 @@ import pyodbc
 
 
 app = Flask(__name__)
-app.secret_key = "Secret"
-
-
-connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:cld3.database.windows.net,1433;Database=cl3;Uid=dvk@cld3;Pwd={Gmail2019!};")
-cursor = connection.cursor()
-print(cursor)
+# app.secret_key = "Secret"
+#
+#
+# connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:cld3.database.windows.net,1433;Database=cl3;Uid=dvk@cld3;Pwd={Gmail2019!};")
+# cursor = connection.cursor()
+# print(cursor)
 
 @app.route('/')
 def index():
-    # page="<h1>Devaki Kamat<h1>"
-    # page += "<h1>1001635004</h1>"
-    # return page
+    page = "<h1>Devaki Kamat<h1>"
+    page += "<h1>1001635004</h1>"
+    return page
 
-    return render_template('home.html')
+    # return render_template('home.html')
 
 
 # @app.route('/data', methods=['GET', 'POST'])
