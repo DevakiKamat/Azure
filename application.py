@@ -23,16 +23,25 @@ def index():
 def data():
     if request.method == 'POST':
         input3 = request.form['find']
+        start_time = time()
 
-        cursor.execute('SELECT * FROM dbo.records where "mag" >= '+input3+'')
-        rows1 = []
-        result1 = cursor.fetchall()
-        while result1 != False :
+        cursor.execute('SELECT * FROM dbo.records where "mag" >= '+input3)
 
-            rows1.append(result1.copy())
-            result1 = cursor.fetchall()
+        print("Fetched results")
+        while True:
+            rows = cursor.fetchone()
+            if not rows:
+                break
+            # rows1.append(result1.copy())
+            # result1 = cursor.fetchall()
+            print(rows)
 
-    return render_template("data.html", info=rows1)
+        end_time = time()
+        time_taken = (end_time - start_time)
+        return render_template('index.html', t=time_taken)
+        # print("Search over")
+        # return str(rows)
+        # return render_template("data.html", info=rows)
 
 # @app.route('/')
 # def index():
