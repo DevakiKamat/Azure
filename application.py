@@ -13,11 +13,8 @@ connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:c
 cursor = connection.cursor()
 print(cursor)
 
-r = redis.StrictRedis(redis_connect_dict['host'],
-                      redis_connect_dict['port'],
-                      redis_connect_dict['db'],
-                      redis_connect_dict['password'],
-                      ssl=True)
+r = redis.Redis(host='rdb3.redis.cache.windows.net', port=6380, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=',db=0,ssl=True)
+print(r)
 
 @app.route('/')
 def index():
@@ -49,6 +46,39 @@ def data():
         # print("Search over")
         # return str(rows)
         # return render_template("data.html", info=rows)
+
+
+# @app.route('/rdata', methods=['GET', 'POST'])
+# def rdata():
+#     if request.method == 'POST':
+#         input3 = request.form['find1']
+#         start_time = time()
+#         rows=[]
+#         query = 'SELECT * FROM dbo.records where "mag" >= '+input3
+#         if r.get(query) == None:
+#             cursor.execute(query)
+#             data = cursor.fetchall()
+#             r.set(query, data)
+#             rows=data
+#             print("No Cache")
+#         else:
+#             data = r.get(query)
+#             print(data)
+#             data = data.replace(')', '')
+#             data = data.replace('[', '')
+#             data = data.replace(']', '')
+#             rowL = data.split('(')
+#             for row in rowL:
+#                 print(row)
+#                 item = row.split(',')
+#                 rows.append(item)
+#                 print(rows)
+#                 print("Redis")
+#         db.close()
+#         end_time = time()
+#         time_taken = (end_time - start_time)
+#         return render_template('rData.html', data=rows)
+
 
 # @app.route('/')
 # def index():
