@@ -13,8 +13,8 @@ connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:c
 cursor = connection.cursor()
 print(cursor)
 
-r = redis.Redis(host='rdb3.redis.cache.windows.net', port=6380, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=',db=0,ssl=True)
-print(r)
+# r = redis.Redis(host='rdb3.redis.cache.windows.net', port=6380, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=',db=0,ssl=True)
+# print(r)
 
 @app.route('/')
 def index():
@@ -48,29 +48,29 @@ def data():
         # return render_template("data.html", info=rows)
 
 
-@app.route('/rdata', methods=['GET', 'POST'])
-def rdata():
-    if request.method == 'POST':
-        input3 = request.form['find1']
-
-        rows=[]
-        query = 'SELECT count(*) FROM dbo.records where "mag" >= '+input3
-        if r.get(query) == None:
-            print(query)
-            start_time = time()
-            cursor.execute(query)
-            data = cursor.fetchall()
-            # r.set(query,data)
-            # print(data)
-        else:
-            start_time = time()
-            data = r.get(query)
-            # print(data)
-        connection.commit()
-        end_time = time()
-        time_taken = (end_time - start_time)
-        flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
-        return render_template('rData.html', t=time_taken, rec=data)
+# @app.route('/rdata', methods=['GET', 'POST'])
+# def rdata():
+#     if request.method == 'POST':
+#         input3 = request.form['find1']
+#
+#         rows=[]
+#         query = 'SELECT count(*) FROM dbo.records where "mag" >= '+input3
+#         if r.get(query) == None:
+#             print(query)
+#             start_time = time()
+#             cursor.execute(query)
+#             data = cursor.fetchall()
+#             # r.set(query,data)
+#             # print(data)
+#         else:
+#             start_time = time()
+#             data = r.get(query)
+#             # print(data)
+#         connection.commit()
+#         end_time = time()
+#         time_taken = (end_time - start_time)
+#         flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+#         return render_template('rData.html', t=time_taken, rec=data)
 
 
 # @app.route('/')
