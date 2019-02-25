@@ -13,8 +13,10 @@ connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:c
 cursor = connection.cursor()
 print(cursor)
 
-r = redis.Redis(host='rdb3.redis.cache.windows.net', port=6380, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=',db=0,ssl=True)
-print(r)
+# r = redis.Redis(host='rdb3.redis.cache.windows.net', port=6380, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=',db=0,ssl=True)
+# print(r)
+
+r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
 
 @app.route('/')
 def index():
