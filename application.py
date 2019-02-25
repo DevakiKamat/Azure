@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request,flash
 from time import time
 import pyodbc
+import redis
 import csv
 
 
@@ -11,6 +12,12 @@ app.secret_key = "Secret"
 connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:cloud3.database.windows.net,1433;Database=cloud3;Uid=dvk@cloud3;Pwd={Gmail2019!};")
 cursor = connection.cursor()
 print(cursor)
+
+r = redis.StrictRedis(redis_connect_dict['host'],
+                      redis_connect_dict['port'],
+                      redis_connect_dict['db'],
+                      redis_connect_dict['password'],
+                      ssl=True)
 
 @app.route('/')
 def index():
