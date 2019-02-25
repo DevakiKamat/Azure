@@ -91,21 +91,21 @@ def index():
     start_time = time()
     cursor.execute("CREATE TABLE [dbo].[population](\
         [State][nvarchar](100) NULL,\
-        [2010] [int] NULL,\
-        [2011] [int] NULL,\
-        [2012] [int] NULL,\
-        [2013] [int] NULL,\
-        [2014] [int] NULL,\
-        [2015] [int] NULL,\
-        [2016] [int] NULL,\
-        [2017] [int] NULL,\
-        [2018] [int] NULL)")
+        [col2010][nvarchar](100) NULL,\
+        [col2011][nvarchar](100) NULL,\
+        [col2012][nvarchar](100) NULL,\
+        [col2013][nvarchar](100) NULL,\
+        [col2014][nvarchar](100) NULL,\
+        [col2015][nvarchar](100) NULL,\
+        [col2016][nvarchar](100) NULL,\
+        [col2017][nvarchar](100) NULL,\
+        [col2018][nvarchar](100) NULL)")
     connection.commit()
 
 
 
 
-    query = "INSERT INTO dbo.population (State,2010,2011,2012,2013,2014,2015,2016,2017,2018) VALUES (?,?,?,?,?,?,?,?,?,?)"
+    query = "INSERT INTO dbo.population (State,col2010,col2011,col2012,col2013,col2014,col2015,col2016,col2017,col2018) VALUES (?,?,?,?,?,?,?,?,?,?)"
     with open('population.csv') as csvfile:
         next(csvfile)
         reader = csv.reader(csvfile, delimiter=',')
