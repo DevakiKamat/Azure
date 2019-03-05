@@ -10,91 +10,91 @@ app = Flask(__name__)
 app.secret_key = "Secret"
 
 
-connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:cloud3.database.windows.net,1433;Database=cloud3;Uid=dvk@cloud3;Pwd={Gmail2019!};")
+connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};")
 cursor = connection.cursor()
 print(cursor)
 
-r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
-
-
-@app.route('/')
-def index():
-
-
-    return render_template('home.html')
-
-
-@app.route('/data', methods=['GET', 'POST'])
-def data():
-    if request.method == 'POST':
-        input3 = request.form['state']
-        input4 = request.form['year']
-
-
-        start_time = time()
-        # query='SELECT \'+input4+\' FROM dbo.population,dbo.statecode where "State" = "cState" and "code" ='"+input3+"''
-        query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ="+ "'"+input3+"')"
-        print(query)
-        cursor.execute(query)
-        r = cursor.fetchall()
-        print(r)
-
-
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('index.html', t=time_taken , data=r)
-        # print("Search over")
-        # return str(rows)
-        # return render_template("data.html", info=rows)
-
-
-@app.route('/rdata', methods=['GET', 'POST'])
-def rdata():
-    if request.method == 'POST':
-        input3 = request.form['state']
-
-        rows=[]
-        query = 'SELECT count(county) FROM dbo.statecode,dbo.counties where "Statec" = "cState" and "code" = \'+input3\''
-        if r.get(query) == None:
-            print(query)
-            start_time = time()
-            cursor.execute(query)
-            data = cursor.fetchall()
-            # r.set(query,data)
-            # print(data)
-        else:
-            start_time = time()
-            data = r.get(query)
-            # print(data)
-        connection.commit()
-        end_time = time()
-        time_taken = (end_time - start_time)
-        flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
-        return render_template('rData.html', t=time_taken, rec=data)
-
-@app.route('/pdata', methods=['GET', 'POST'])
-def pdata():
-    if request.method == 'POST':
-        input3 = request.form['code']
-
-        rows=[]
-        query = 'SELECT col2011 FROM dbo.population,dbo.statecode where "State" = "cState" and "code" = \'+input3\''
-        if r.get(query) == None:
-            print(query)
-            start_time = time()
-            cursor.execute(query)
-            data = cursor.fetchall()
-            # r.set(query,data)
-            # print(data)
-        else:
-            start_time = time()
-            data = r.get(query)
-            # print(data)
-        connection.commit()
-        end_time = time()
-        time_taken = (end_time - start_time)
-        flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
-        return render_template('rData.html', t=time_taken, rec=data)
+# r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
+#
+#
+# @app.route('/')
+# def index():
+#
+#
+#     return render_template('home.html')
+#
+#
+# @app.route('/data', methods=['GET', 'POST'])
+# def data():
+#     if request.method == 'POST':
+#         input3 = request.form['state']
+#         input4 = request.form['year']
+#
+#
+#         start_time = time()
+#         # query='SELECT \'+input4+\' FROM dbo.population,dbo.statecode where "State" = "cState" and "code" ='"+input3+"''
+#         query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ="+ "'"+input3+"')"
+#         print(query)
+#         cursor.execute(query)
+#         r = cursor.fetchall()
+#         print(r)
+#
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('index.html', t=time_taken , data=r)
+#         # print("Search over")
+#         # return str(rows)
+#         # return render_template("data.html", info=rows)
+#
+#
+# @app.route('/rdata', methods=['GET', 'POST'])
+# def rdata():
+#     if request.method == 'POST':
+#         input3 = request.form['state']
+#
+#         rows=[]
+#         query = 'SELECT count(county) FROM dbo.statecode,dbo.counties where "Statec" = "cState" and "code" = \'+input3\''
+#         if r.get(query) == None:
+#             print(query)
+#             start_time = time()
+#             cursor.execute(query)
+#             data = cursor.fetchall()
+#             # r.set(query,data)
+#             # print(data)
+#         else:
+#             start_time = time()
+#             data = r.get(query)
+#             # print(data)
+#         connection.commit()
+#         end_time = time()
+#         time_taken = (end_time - start_time)
+#         flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+#         return render_template('rData.html', t=time_taken, rec=data)
+#
+# @app.route('/pdata', methods=['GET', 'POST'])
+# def pdata():
+#     if request.method == 'POST':
+#         input3 = request.form['code']
+#
+#         rows=[]
+#         query = 'SELECT col2011 FROM dbo.population,dbo.statecode where "State" = "cState" and "code" = \'+input3\''
+#         if r.get(query) == None:
+#             print(query)
+#             start_time = time()
+#             cursor.execute(query)
+#             data = cursor.fetchall()
+#             # r.set(query,data)
+#             # print(data)
+#         else:
+#             start_time = time()
+#             data = r.get(query)
+#             # print(data)
+#         connection.commit()
+#         end_time = time()
+#         time_taken = (end_time - start_time)
+#         flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+#         return render_template('rData.html', t=time_taken, rec=data)
 
 
 
