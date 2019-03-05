@@ -23,25 +23,25 @@ def index():
 
     return render_template('home.html')
 
-
-@app.route('/data', methods=['GET', 'POST'])
-def data():
-    if request.method == 'POST':
-        input3 = request.form['state']
-        input4 = request.form['year']
-
-
-        start_time = time()
-        query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
-        print(query)
-        cursor.execute(query)
-        r = cursor.fetchall()
-        print(r)
-
-
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('index.html', t=time_taken , data=r)
+#
+# @app.route('/data', methods=['GET', 'POST'])
+# def data():
+#     if request.method == 'POST':
+#         input3 = request.form['state']
+#         input4 = request.form['year']
+#
+#
+#         start_time = time()
+#         query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
+#         print(query)
+#         cursor.execute(query)
+#         r = cursor.fetchall()
+#         print(r)
+#
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('index.html', t=time_taken , data=r)
 
 
 @app.route('/rdata', methods=['GET', 'POST'])
