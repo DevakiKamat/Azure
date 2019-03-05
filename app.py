@@ -23,25 +23,25 @@ def index():
 
     return render_template('home.html')
 
-#
-# @app.route('/data', methods=['GET', 'POST'])
-# def data():
-#     if request.method == 'POST':
-#         input3 = request.form['state']
-#         input4 = request.form['year']
-#
-#
-#         start_time = time()
-#         query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
-#         print(query)
-#         cursor.execute(query)
-#         r = cursor.fetchall()
-#         print(r)
-#
-#
-#     end_time = time()
-#     time_taken = (end_time - start_time)
-#     return render_template('index.html', t=time_taken , data=r)
+
+@app.route('/data', methods=['GET', 'POST'])
+def data():
+    if request.method == 'POST':
+        input3 = request.form['state']
+        input4 = request.form['year']
+
+
+        start_time = time()
+        query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
+        print(query)
+        cursor.execute(query)
+        r = cursor.fetchall()
+        print(r)
+
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('index.html', t=time_taken , data=r)
 
 
 @app.route('/rdata', methods=['GET', 'POST'])
@@ -69,30 +69,7 @@ def rdata():
     return render_template('rdata.html', t=time_taken , rec=r,list=r2)
 
 
-# @app.route('/rdata', methods=['GET', 'POST'])
-# def rdata():
-#     if request.method == 'POST':
-#         input3 = request.form['state']
-#
-#         rows=[]
-#         query = "SELECT count(county) FROM dbo.statecode,dbo.counties where "Statec" = "cState" and "code" = '"+input3+"'"
-#         if r.get(query) == None:
-#             print(query)
-#             start_time = time()
-#             cursor.execute(query)
-#             data = cursor.fetchall()
-#             # r.set(query,data)
-#             # print(data)
-#         else:
-#             start_time = time()
-#             data = r.get(query)
-#             # print(data)
-#         connection.commit()
-#         end_time = time()
-#         time_taken = (end_time - start_time)
-#         flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
-#         return render_template('rData.html', t=time_taken, rec=data)
-#
+
 # @app.route('/pdata', methods=['GET', 'POST'])
 # def pdata():
 #     if request.method == 'POST':
