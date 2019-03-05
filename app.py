@@ -17,44 +17,65 @@ print(cursor)
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
 #
 #
-# @app.route('/')
-# def index():
-#
-#
-#     return render_template('home.html')
-#
-#
-# @app.route('/data', methods=['GET', 'POST'])
-# def data():
-#     if request.method == 'POST':
-#         input3 = request.form['state']
-#         input4 = request.form['year']
-#
-#
-#         start_time = time()
-#         # query='SELECT \'+input4+\' FROM dbo.population,dbo.statecode where "State" = "cState" and "code" ='"+input3+"''
-#         query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ="+ "'"+input3+"')"
-#         print(query)
-#         cursor.execute(query)
-#         r = cursor.fetchall()
-#         print(r)
-#
-#
-#     end_time = time()
-#     time_taken = (end_time - start_time)
-#     return render_template('index.html', t=time_taken , data=r)
-#         # print("Search over")
-#         # return str(rows)
-#         # return render_template("data.html", info=rows)
-#
-#
+@app.route('/')
+def index():
+
+
+    return render_template('home.html')
+
+
+@app.route('/data', methods=['GET', 'POST'])
+def data():
+    if request.method == 'POST':
+        input3 = request.form['state']
+        input4 = request.form['year']
+
+
+        start_time = time()
+        query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
+        print(query)
+        cursor.execute(query)
+        r = cursor.fetchall()
+        print(r)
+
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('index.html', t=time_taken , data=r)
+
+
+@app.route('/rdata', methods=['GET', 'POST'])
+def rdata():
+    if request.method == 'POST':
+        input3 = request.form['state']
+
+
+        start_time = time()
+        query= "SELECT count(county) FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"'"
+        print(query)
+        cursor.execute(query)
+        r = cursor.fetchall()
+        print(r)
+
+        query1 = "SELECT county FROM dbo.statecode,dbo.counties where Statec = cState and code = '" + input3 + "'"
+        print(query)
+        cursor.execute(query1)
+        r2 = cursor.fetchall()
+
+
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('rdata.html', t=time_taken , rec=r,list=r2)
+
+
 # @app.route('/rdata', methods=['GET', 'POST'])
 # def rdata():
 #     if request.method == 'POST':
 #         input3 = request.form['state']
 #
 #         rows=[]
-#         query = 'SELECT count(county) FROM dbo.statecode,dbo.counties where "Statec" = "cState" and "code" = \'+input3\''
+#         query = "SELECT count(county) FROM dbo.statecode,dbo.counties where "Statec" = "cState" and "code" = '"+input3+"'"
 #         if r.get(query) == None:
 #             print(query)
 #             start_time = time()

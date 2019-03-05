@@ -11,5 +11,12 @@
 <h3>Time:</h3>{{ t }}
 <h3>Count:</h3>{{ rec }}
 
+{% for data in list %}
+<table>
+<tr>
+<td>{{ data["county"] }}</td>
+</tr>
+</table>
+{% endfor %}
 </body>
 </html>
