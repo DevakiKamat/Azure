@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, flash, jsonify, Response, make_response
 from time import time
-import pyodbc
-import json
-import redis
-import random
-import csv
+# import pyodbc
+# import json
+# import redis
+# import random
+# import csv
 from sqlalchemy import create_engine
 import urllib
 
