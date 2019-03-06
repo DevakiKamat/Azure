@@ -25,18 +25,18 @@ engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 @app.route('/')
 def index():
-    # start_time = time()
-    # query = "SELECT State,col2011 FROM dbo.population"
-    # print(query)
-    # r = engine.execute(query).fetchall()
-    # r = [dict(row) for row in r]
-    #
-    # end_time = time()
-    # time_taken = (end_time - start_time)
-    # return render_template('index.html', t=time_taken, data=r)
+    start_time = time()
+    query = "SELECT State,col2011 FROM dbo.population"
+    print(query)
+    r = engine.execute(query).fetchall()
+    r = [dict(row) for row in r]
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('index.html', t=time_taken, data=r)
 
 
-    return render_template('home.html')
+    # return render_template('home.html')
 
 
 # @app.route('/data', methods=['GET', 'POST'])
