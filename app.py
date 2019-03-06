@@ -7,7 +7,6 @@ from time import time
 # import csv
 from sqlalchemy import create_engine
 import urllib
-from urlparse import urlparse
 
 app = Flask(__name__)
 app.secret_key = "Secret"
@@ -17,7 +16,7 @@ app.secret_key = "Secret"
 # cursor = connection.cursor()
 # print(cursor)
 
-params = urlparse("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+params = urllib.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
