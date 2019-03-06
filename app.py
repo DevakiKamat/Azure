@@ -4,7 +4,7 @@ import pyodbc
 # import json
 # import redis
 # import random
-#import csv
+# import csv
 from sqlalchemy import create_engine
 import urllib
 
@@ -17,7 +17,7 @@ app.secret_key = "Secret"
 # print(cursor)
 
 params = urllib.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-#params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+# params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
@@ -66,7 +66,7 @@ def rdata():
 @app.route('/barg', methods=['GET', 'POST'])
 def barg():
     start_time = time()
-    query = "SELECT mag,locationSource FROM dbo.quakes"
+    query = "SELECT Sum(blpercent) as sum,year FROM dbo.edshare group by year"
     print(query)
     r = engine.execute(query).fetchall()
     r = [dict(row) for row in r]
@@ -90,13 +90,13 @@ def pieg():
 
 
 @app.route('/data', methods=['GET', 'POST'])
-def pdata():
+def data():
     if request.method == 'POST':
         input3 = request.form['loc']
 
 
         start_time = time()
-        query= "SELECT latitude,longitude,mag FROM dbo.quakes where locationSource = '"+input3+"'"
+        query= "SELECT entity,year,blpercent FROM dbo.edshare where code = '"+input3+"'"
         print(query)
         r = engine.execute(query).fetchall()
         print(r)
@@ -268,6 +268,32 @@ def pdata():
 #     time_taken = (end_time - start_time)
 #     flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
 #     return render_template('index.html', t=time_taken)
+
+
+# @app.route('/')
+# def index():
+#     start_time = time()
+#     cursor.execute("CREATE TABLE [dbo].[edshare](\
+#         [entity][nvarchar](100) NULL,\
+#         [code][nvarchar](50) NULL,\
+#         [year][nvarchar](50) NULL,\
+#         [blpercent][float] NULL)")
+#     connection.commit()
+#
+#
+#     query = "INSERT INTO dbo.edshare (entity,code,year,blpercent) VALUES (?,?,?,?)"
+#     with open('edshare.csv') as csvfile:
+#         next(csvfile)
+#         reader = csv.reader(csvfile, delimiter=',')
+#         for row in reader:
+#             print(row)
+#             cursor.execute(query, row)
+#
+#         connection.commit()
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     # # flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+#     # return render_template('index.html', t=time_taken)
 
 
 if __name__ == '__main__':

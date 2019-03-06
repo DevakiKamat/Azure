@@ -15,8 +15,8 @@
     console.log(rdata);
     var myChart = new dimple.chart(svg, rdata);
       myChart.setBounds(80, 30, 480, 330)
-      myChart.addCategoryAxis("x", "locationSource");
-      myChart.addMeasureAxis("y", "mag");
+      myChart.addMeasureAxis("y", "sum");
+      myChart.addCategoryAxis("x", "year");
       myChart.addSeries("FARE", dimple.plot.bar);
       myChart.addLegend(200, 10, 380, 20, "right");
       myChart.draw();

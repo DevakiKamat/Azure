@@ -14,9 +14,9 @@
     console.log(rdata);
    var myChart = new dimple.chart(svg, rdata);
         myChart.setBounds(60, 30, 500, 330)
-        myChart.addMeasureAxis("x", "latitude");
-        myChart.addMeasureAxis("y", "longitude");
-        myChart.addSeries(["mag"], dimple.plot.bubble);
+        myChart.addMeasureAxis("x", "entity");
+        myChart.addCategoryAxis("y", "year");
+        myChart.addSeries(["blpercent"], dimple.plot.bubble);
         myChart.addLegend(200, 10, 360, 20, "right");
         myChart.draw();
 </script>
