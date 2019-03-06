@@ -63,7 +63,7 @@ def rdata():
     return render_template('rdata.html', t=time_taken , rec=r)
 
 
-@app.route('/pdata', methods=['GET', 'POST'])
+@app.route('/data', methods=['GET', 'POST'])
 def pdata():
     if request.method == 'POST':
         input3 = request.form['loc']
