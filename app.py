@@ -18,7 +18,7 @@ app.secret_key = "Secret"
 
 params = urllib.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 # params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+# engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
 
