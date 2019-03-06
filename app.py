@@ -4,7 +4,7 @@ import pyodbc
 # import json
 # import redis
 # import random
-# import csv
+#import csv
 from sqlalchemy import create_engine
 import urllib
 
@@ -17,24 +17,25 @@ app.secret_key = "Secret"
 # print(cursor)
 
 params = urllib.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+# params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
 
 @app.route('/')
 def index():
-    start_time = time()
-    query = "SELECT State,col2011 FROM dbo.population"
-    print(query)
-    r = engine.execute(query).fetchall()
-    r = [dict(row) for row in r]
+    # start_time = time()
+    # query = "SELECT State,col2011 FROM dbo.population"
+    # print(query)
+    # r = engine.execute(query).fetchall()
+    # r = [dict(row) for row in r]
+    #
+    # end_time = time()
+    # time_taken = (end_time - start_time)
+    # return render_template('index.html', t=time_taken, data=r)
 
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('index.html', t=time_taken, data=r)
 
-
-    # return render_template('home.html')
+    return render_template('home.html')
 
 
 # @app.route('/data', methods=['GET', 'POST'])
@@ -62,24 +63,24 @@ def rdata():
     return render_template('rdata.html', t=time_taken , rec=r)
 
 
-# @app.route('/pdata', methods=['GET', 'POST'])
-# def pdata():
-#     if request.method == 'POST':
-#         input3 = request.form['state']
-#
-#
-#         start_time = time()
-#         query= "SELECT code,count(county) as mycnt FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"' group by code"
-#         print(query)
-#         r = engine.execute(query).fetchall()
-#         print(r)
-#         r = [dict(row) for row in r]
-#
-#
-#
-#     end_time = time()
-#     time_taken = (end_time - start_time)
-#     return render_template('rdata.html', t=time_taken , rec=r)
+@app.route('/pdata', methods=['GET', 'POST'])
+def pdata():
+    if request.method == 'POST':
+        input3 = request.form['loc']
+
+
+        start_time = time()
+        query= "SELECT latitude,longitude,mag FROM dbo.quakes where locationSource = '"+input3+"'"
+        print(query)
+        r = engine.execute(query).fetchall()
+        print(r)
+        r = [dict(row) for row in r]
+
+
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('data.html', t=time_taken, rec=r)
 
 
 
@@ -189,6 +190,55 @@ def rdata():
 #     end_time = time()
 #     time_taken = (end_time - start_time)
 #     # flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
+#     return render_template('index.html', t=time_taken)
+
+
+
+# @app.route('/')
+# def index():
+#     start_time = time()
+#     cursor.execute("CREATE TABLE [dbo].[quakes](\
+#     	[time] [datetime2](7) NULL,\
+#     	[latitude] [float] NULL,\
+#     	[longitude] [float] NULL,\
+#     	[depth] [float] NULL,\
+#     	[mag] [float] NULL,\
+#     	[magType] [nvarchar](50) NULL,\
+#     	[nst] [int] NULL,\
+#     	[gap] [float] NULL,\
+#     	[dmin] [float] NULL,\
+#     	[rms] [float] NULL,\
+#         [net][nvarchar](50) NULL,\
+#         [id][nvarchar](50) NULL,\
+#         [updated] [datetime2](7) NULL,\
+#         [place][nvarchar](100) NULL,\
+#         [type][nvarchar](50) NULL,\
+#         [horizontalError][float] NULL,\
+#         [depthError][float] NULL,\
+#         [magError][float] NULL,\
+#         [magNst][int] NULL,\
+#         [status] [nvarchar](50) NULL,\
+#         [locationSource][nvarchar](50) NULL,\
+#         [magSource][nvarchar](50) NULL)")
+#     connection.commit()
+#
+#
+#
+#
+#     query = "INSERT INTO dbo.quakes (time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+#
+#
+#     with open('quakes.csv') as csvfile:
+#           next(csvfile)
+#           reader = csv.reader(csvfile, delimiter=',')
+#           for row in reader:
+#               print(row)
+#               cursor.execute(query,row)
+#
+#           connection.commit()
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     flash('The Average Time taken to execute the random queries is : ' + "%.4f" % time_taken + " seconds")
 #     return render_template('index.html', t=time_taken)
 
 
