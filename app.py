@@ -24,18 +24,18 @@ engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 @app.route('/')
 def index():
-    # start_time = time()
-    # query = "SELECT State,col2011 FROM dbo.population"
-    # print(query)
-    # r = engine.execute(query).fetchall()
-    # r = [dict(row) for row in r]
-    #
-    # end_time = time()
-    # time_taken = (end_time - start_time)
-    # return render_template('index.html', t=time_taken, data=r)
+    start_time = time()
+    query = "SELECT State,col2011 FROM dbo.population"
+    print(query)
+    r = engine.execute(query).fetchall()
+    r = [dict(row) for row in r]
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('index.html', t=time_taken, data=r)
 
 
-    return render_template('home.html')
+    # return render_template('home.html')
 
 
 # @app.route('/data', methods=['GET', 'POST'])
@@ -43,44 +43,44 @@ def index():
 
 
 
-@app.route('/rdata', methods=['GET', 'POST'])
-def rdata():
-    if request.method == 'POST':
-        input3 = request.form['state']
-
-
-        start_time = time()
-        query= "SELECT code,count(county) as mycnt FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"' group by code"
-        print(query)
-        r = engine.execute(query).fetchall()
-        print(r)
-        r = [dict(row) for row in r]
-
-
-
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('rdata.html', t=time_taken , rec=r)
-
-
-@app.route('/data', methods=['GET', 'POST'])
-def pdata():
-    if request.method == 'POST':
-        input3 = request.form['loc']
-
-
-        start_time = time()
-        query= "SELECT latitude,longitude,mag FROM dbo.quakes where locationSource = '"+input3+"'"
-        print(query)
-        r = engine.execute(query).fetchall()
-        print(r)
-        r = [dict(row) for row in r]
-
-
-
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('data.html', t=time_taken, rec=r)
+# @app.route('/rdata', methods=['GET', 'POST'])
+# def rdata():
+#     if request.method == 'POST':
+#         input3 = request.form['state']
+#
+#
+#         start_time = time()
+#         query= "SELECT code,count(county) as mycnt FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"' group by code"
+#         print(query)
+#         r = engine.execute(query).fetchall()
+#         print(r)
+#         r = [dict(row) for row in r]
+#
+#
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('rdata.html', t=time_taken , rec=r)
+#
+#
+# @app.route('/data', methods=['GET', 'POST'])
+# def pdata():
+#     if request.method == 'POST':
+#         input3 = request.form['loc']
+#
+#
+#         start_time = time()
+#         query= "SELECT latitude,longitude,mag FROM dbo.quakes where locationSource = '"+input3+"'"
+#         print(query)
+#         r = engine.execute(query).fetchall()
+#         print(r)
+#         r = [dict(row) for row in r]
+#
+#
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('data.html', t=time_taken, rec=r)
 
 
 
