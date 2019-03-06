@@ -63,6 +63,32 @@ def rdata():
     return render_template('rdata.html', t=time_taken , rec=r)
 
 
+@app.route('/barg', methods=['GET', 'POST'])
+def barg():
+    start_time = time()
+    query = "SELECT mag,locationSource FROM dbo.quakes"
+    print(query)
+    r = engine.execute(query).fetchall()
+    r = [dict(row) for row in r]
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('barg.html', t=time_taken, rec=r)
+
+
+@app.route('/pieg', methods=['GET', 'POST'])
+def pieg():
+    start_time = time()
+    query = "SELECT State,col2011 FROM dbo.population"
+    print(query)
+    r = engine.execute(query).fetchall()
+    r = [dict(row) for row in r]
+
+    end_time = time()
+    time_taken = (end_time - start_time)
+    return render_template('pieg.html', t=time_taken, rec=r)
+
+
 @app.route('/data', methods=['GET', 'POST'])
 def pdata():
     if request.method == 'POST':
@@ -81,6 +107,8 @@ def pdata():
     end_time = time()
     time_taken = (end_time - start_time)
     return render_template('data.html', t=time_taken, rec=r)
+
+
 
 
 

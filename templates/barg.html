@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="chartContainer">
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+<script type="text/javascript">
+    var svg = dimple.newSvg("#chartContainer", 590, 400);
+    var rdata = {{ rec | tojson | safe }};
+    console.log(rdata);
+    var myChart = new dimple.chart(svg, rdata);
+      myChart.setBounds(80, 30, 480, 330)
+      myChart.addCategoryAxis("x", "locationSource");
+      myChart.addMeasureAxis("y", "mag");
+      myChart.addSeries("FARE", dimple.plot.bar);
+      myChart.addLegend(200, 10, 380, 20, "right");
+      myChart.draw();
+ </script>
+</div>
+</body>
+</html>
