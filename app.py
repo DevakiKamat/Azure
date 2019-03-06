@@ -17,7 +17,7 @@ app.secret_key = "Secret"
 # print(cursor)
 
 params = urllib.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-# params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+#params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
@@ -78,11 +78,15 @@ def barg():
 
 @app.route('/pieg', methods=['GET', 'POST'])
 def pieg():
-    start_time = time()
-    query = "SELECT State,col2011 FROM dbo.population"
-    print(query)
-    r = engine.execute(query).fetchall()
-    r = [dict(row) for row in r]
+    if request.method == 'POST':
+        input5 = request.form['ploc']
+
+        start_time = time()
+        query = "SELECT year,blpercent FROM dbo.edshare where code = '" + input5 + "'"
+        print(query)
+        r = engine.execute(query).fetchall()
+        # print(r)
+        r = [dict(row) for row in r]
 
     end_time = time()
     time_taken = (end_time - start_time)
