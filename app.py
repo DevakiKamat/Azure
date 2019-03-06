@@ -1,46 +1,47 @@
-from flask import Flask, render_template, request,flash
+from flask import Flask, render_template, request, flash, jsonify, Response, make_response
 from time import time
 import pyodbc
+import json
 import redis
 import random
 import csv
+from sqlalchemy import create_engine
+import urllib
+
 
 
 app = Flask(__name__)
 app.secret_key = "Secret"
 
 
-connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};")
-cursor = connection.cursor()
-print(cursor)
+# connection = pyodbc.connect("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};")
+# cursor = connection.cursor()
+# print(cursor)
+
+params = urllib.parse.quote_plus("Driver={ODBC Driver 13 for SQL Server};Server=tcp:dvkc4.database.windows.net,1433;Database=dbc4;Uid=dvk@dvkc4;Pwd={Gmail2019!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
+engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # r = redis.StrictRedis(host='rdb3.redis.cache.windows.net', port=6380, db=0, password='iA3zVvBHpA+QJD1fPynGJ0gCr5qp4pv5fma8hUfi6MA=', ssl=True)
 
 @app.route('/')
 def index():
-
-
-    return render_template('home.html')
-
-
-@app.route('/data', methods=['GET', 'POST'])
-def data():
-    if request.method == 'POST':
-        input3 = request.form['state']
-        input4 = request.form['year']
-
-
-        start_time = time()
-        query= "SELECT "+ input4 +" FROM dbo.population where State = (Select cState from dbo.statecode where code ='"+input3+"')"
-        print(query)
-        cursor.execute(query)
-        r = cursor.fetchall()
-        print(r)
-
+    start_time = time()
+    query = "SELECT State,col2011 FROM dbo.population"
+    print(query)
+    r = engine.execute(query).fetchall()
+    r = [dict(row) for row in r]
 
     end_time = time()
     time_taken = (end_time - start_time)
-    return render_template('index.html', t=time_taken , data=r)
+    return render_template('index.html', t=time_taken, data=r)
+
+
+    # return render_template('home.html')
+
+
+# @app.route('/data', methods=['GET', 'POST'])
+# def data():
+
 
 
 @app.route('/rdata', methods=['GET', 'POST'])
@@ -50,22 +51,37 @@ def rdata():
 
 
         start_time = time()
-        query= "SELECT count(county) FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"'"
+        query= "SELECT code,count(county) as mycnt FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"' group by code"
         print(query)
-        cursor.execute(query)
-        r = cursor.fetchall()
+        r = engine.execute(query).fetchall()
         print(r)
-
-        query1 = "SELECT county FROM dbo.statecode,dbo.counties where Statec = cState and code = '" + input3 + "'"
-        print(query)
-        cursor.execute(query1)
-        r2 = cursor.fetchall()
+        r = [dict(row) for row in r]
 
 
 
     end_time = time()
     time_taken = (end_time - start_time)
-    return render_template('rdata.html', t=time_taken , rec=r,list=r2)
+    return render_template('rdata.html', t=time_taken , rec=r)
+
+
+# @app.route('/pdata', methods=['GET', 'POST'])
+# def pdata():
+#     if request.method == 'POST':
+#         input3 = request.form['state']
+#
+#
+#         start_time = time()
+#         query= "SELECT code,count(county) as mycnt FROM dbo.statecode,dbo.counties where Statec = cState and code = '"+input3+"' group by code"
+#         print(query)
+#         r = engine.execute(query).fetchall()
+#         print(r)
+#         r = [dict(row) for row in r]
+#
+#
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('rdata.html', t=time_taken , rec=r)
 
 
 
@@ -75,8 +91,7 @@ def rdata():
 #         input3 = request.form['code']
 #
 #         rows=[]
-#         query = 'SELECT col2011 FROM dbo.population,dbo.statecode where "State" = "cState" and "code" = \'+input3\''
-#         if r.get(query) == None:
+#         query = 'SELECT col2011 FROM dbo.population,dbo.statecode where "State" = "cState" and "code" = \'+input3\''#         if r.get(query) == None:
 #             print(query)
 #             start_time = time()
 #             cursor.execute(query)

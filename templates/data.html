@@ -1,21 +1,48 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Title</title>#}
+{#</head>#}
+{#<body>#}
+{#<h3>Devaki Kamat</h3>#}
+{#<h3>1001635004</h3>#}
+{#<h2>Searching data....</h2>#}
+{#{% for loc in info %}#}
+{#<table border=1>#}
+{#<tr>#}
+{#<td>{{ loc["mag"] }}</td>#}
+{#<td>{{ loc["place"] }}</td>#}
+{#</tr>#}
+{#</table>#}
+{#<h3>Count: {{ info }}</h3>#}
+{#{% endfor %}#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
 </head>
 <body>
-<h3>Devaki Kamat</h3>
-<h3>1001635004</h3>
-<h2>Searching data....</h2>
-{% for loc in info %}
-<table border=1>
-<tr>
-<td>{{ loc["mag"] }}</td>
-<td>{{ loc["place"] }}</td>
-</tr>
-</table>
-{#<h3>Count: {{ info }}</h3>#}
-{% endfor %}
+
+<script type="text/javascript">
+
+    var svg = dimple.newSvg("#chartContainer", 590, 400)
+    var data = {{ data }}
+    {#var jdata= data.toJSON()#}
+    console.log(data)
+    var myChart = new dimple.chart(svg, data);
+      myChart.setBounds(80, 30, 480, 330)
+      myChart.addMeasureAxis("x", "Count");
+      myChart.addCategoryAxis("y", "Count");
+      myChart.addSeries("FARE", dimple.plot.bar);
+      myChart.addLegend(200, 10, 380, 20, "right");
+      myChart.draw();
+ </script>
+
+</body>
+</html>
 </body>
 </html>
