@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, jsonify, Response, make_response
 from time import time
-# import pyodbc
+import pyodbc
 # import json
 # import redis
 # import random
