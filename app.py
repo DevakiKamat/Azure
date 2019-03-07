@@ -76,31 +76,39 @@ def barg():
     return render_template('barg.html', t=time_taken, rec=r)
 
 
-@app.route('/pieg', methods=['GET', 'POST'])
-def pieg():
-    if request.method == 'POST':
-        input5 = request.form['ploc']
-
-        start_time = time()
-        query = "SELECT year,blpercent FROM dbo.edshare where code = '" + input5 + "'"
-        print(query)
-        r = engine.execute(query).fetchall()
-        # print(r)
-        r = [dict(row) for row in r]
-
-    end_time = time()
-    time_taken = (end_time - start_time)
-    return render_template('pieg.html', t=time_taken, rec=r)
+# @app.route('/pieg', methods=['GET', 'POST'])
+# def pieg():
+#     if request.method == 'POST':
+#         input5 = request.form['year']
+#         input6 = request.form['r1']
+#         input7 = request.form['r2']
+#         input8 = request.form['r3']
+#         input9 = request.form['r4']
+#         input10 = request.form['r5']
+#         input11 = request.form['r6']
+#
+#         start_time = time()
+#         query = "SELECT count(State) as count,State FROM dbo.population where "+input5+" between '" + input6 + "' and '" + input7 + "' and "+input5+" between '" + input8 + "' and '" + input9 + "' and "+input5+" between '" + input10 + "' and '" + input11 + "' group by State"
+#         print(query)
+#         r = engine.execute(query).fetchall()
+#         # # print(r)
+#         # r = [dict(row) for row in r]
+#
+#     end_time = time()
+#     time_taken = (end_time - start_time)
+#     return render_template('pieg.html', t=time_taken, rec=r)
 
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
     if request.method == 'POST':
         input3 = request.form['loc']
+        input4 = request.form['y1']
+        input5 = request.form['y2']
 
 
         start_time = time()
-        query= "SELECT entity,year,blpercent FROM dbo.edshare where code = '"+input3+"'"
+        query= "SELECT year,blpercent FROM dbo.edshare where year between '"+input4+"' and '"+input5+"'"
         print(query)
         r = engine.execute(query).fetchall()
         print(r)
